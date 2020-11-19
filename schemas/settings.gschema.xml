@@ -11,6 +11,7 @@
   </enum>
   <enum id="org.gnome.shell.extensions.materialshell.theme.taskbarItemStyleEnum">
     <value nick="full" value="0"/>
+    <value nick="title" value="3"/>
     <value nick="name" value="1"/>
     <value nick="icon" value="2"/>
   </enum>

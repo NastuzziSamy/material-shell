@@ -460,11 +460,10 @@ var TileableItem = GObject.registerClass(
 
         // Update the title and crop it if it's too long
         updateTitle() {
-            if (this.style == 'full') {
-                if (this.tileable.title.includes(this.app.get_name())) {
-                    this.title.text = this.tileable.title;
-                } else {
-                    this.title
+            switch (this.style) {
+                case 'full':
+                    if (!this.tileable.title.includes(this.app.get_name())) {
+                        this.title
                         .get_clutter_text()
                         .set_markup(
                             `${this.tileable.title}<span alpha="${
@@ -473,11 +472,25 @@ var TileableItem = GObject.registerClass(
                                     : '20%'
                             }">   -   ${this.app.get_name()}</span>`
                         );
-                }
-            } else if (this.style == 'name') {
-                this.title.text = this.app.get_name();
+
+                        break;
+                    }
+
+                case 'title': 
+                   this.title.text = this.tileable.title;
+
+                   break;
+
+                case 'name': 
+                    this.title.text = this.app.get_name();
+
+                    break;
+
+                default:
+                    this.title.text = '';
             }
         }
+
         vfunc_allocate(...args) {
             const box = args[0];
             const height = box.get_height();
@@ -490,6 +503,7 @@ var TileableItem = GObject.registerClass(
             }
             super.vfunc_allocate(...args);
         }
+
         _onDestroy() {
             this.signalManager.destroy();
             this.menu.destroy();
